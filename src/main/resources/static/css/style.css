@@ -1,0 +1,9 @@
+div.dt-length select {
+    width: auto;
+    display: inline-block;
+    margin-right: 0.5em;
+}
+
+.bi-sort-down::before, .bi-sort-down-alt::before, table th span {
+    font-size: 1.2em;
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>Labels Webservice</title>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+ <div th:replace="fragments/header :: header"></div>
+  <div class="container mb-5">
+  <main role="main">
+      <h1 class="mt-5">[[${mainTitle}]]</h1>
+      <p class="lead">Here you can find a list with all available labels.</p>
+    </main>
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
+      role="alert">
+      [[${message}]]
+      <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="my-3">
+    	<form th:action="@{/labels}" id="searchForm">
+    		<div class="row mt-2 justify-content-between">
+    			<div class="col-md-auto me-auto ">
+    				<div class="input-group search">
+			          <!-- i class="fa fa-search"></i-->
+			          <input id="keyword" type="search" name="keyword" th:value="${keyword}" class="form-control"
+			            placeholder="Enter keyword">
+		          		<button type="submit" class="btn bg-primary text-white">Search</button>
+		        	</div>
+    			</div>
+    			<div class="col-md-auto ms-auto ">
+    				<div class="dt-length">
+    					<select class="form-select form-select-sm" id="dt-length-0">
+    						<option value="10">10</option>
+    						<option value="25">25</option>
+    						<option value="50">50</option>
+    						<option value="100">100</option>
+    					</select>
+    					<label for="dt-length-0"> labels per page</label>
+    				</div>
+    			</div>
+    		</div>
+  		</form>
+    </div>
+
+    <div th:if="${labels.size() > 0}">
+      <table class="table table-bordered">
+	    <thead class="thead-light">
+	      <tr>
+	        <th th:replace="fragments/sorting :: sorting('id','Id')"></th>
+	        <th th:replace="fragments/sorting :: sorting('group','Group')"></th>
+	        <th th:replace="fragments/sorting :: sorting('labelStr','Label')"></th>
+	        <th th:replace="fragments/sorting :: sorting('jsonConf.name','Json Conf')"></th>
+	        <th th:replace="fragments/sorting :: sorting('comment','Comment')"></th>
+	        <th><span>Actions</span></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr th:each="label : ${labels}">
+	        <th scope="row">[[${label.id}]]</th>
+	        <td>[[${label.group}]]</td>  
+	        <td>[[${label.labelStr}]]</td>  
+	        <td>
+				<table class="table table-borderless mb-0">
+				    <tbody >  
+				        <tr><th scope="row" class="p-0 col-4">Name</th><td class="p-0">[[${label.jsonConf.name}]]</td></tr>
+				        <tr><th scope="row" class="p-0 col-4">Uri</th><td class="p-0">[[${label.jsonConf.uri}]]</td></tr>
+				        <tr><th scope="row" class="p-0 col-4">Type</th><td class="p-0">[[${label.jsonConf.type}]]</td></tr>
+				        <tr><th scope="row" class="p-0 col-4">Container</th><td class="p-0">[[${label.jsonConf.container}]]</td></tr>
+				    </tbody>
+				</table>
+			</td>
+	        
+	        
+	        <td>[[${label.comment}]]</td>
+	        <td class="text-center">
+	          <a th:href="@{'/labels/' + ${label.id}}" title="Edit this label"
+	            class="bi bi-pencil-square" style="padding-right: 5px; font-size: 2rem;"></a>
+	           
+	          <a th:href="@{'/labels/delete/' + ${label.id}}" th:labelId="${label.id}" th:labelTitle="${label.labelStr}" id="btnDelete"
+	            title="Delete this label" class="bi bi-trash btn-delete" data-bs-toggle="modal" data-bs-target="#confirmModal" style="font-size: 2rem;"></a>
+	        </td>
+	      </tr>
+	    </tbody>
+	  </table>
+    </div>
+
+    <div th:unless="${labels.size() > 0}">
+      <span>No labels found!</span>
+    </div>
+
+    <nav aria-label="Pagination" th:if="${totalPages > 0}">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+      <a th:replace="fragments/paging :: paging(1, '<<', 'First Page')"></a>
+    </li>
+    <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+      <a th:replace="fragments/paging :: paging(${currentPage - 1}, 'Prev', 'Previous Page')"></a>
+    </li>
+    <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+      <a class="page-link" href="#">...</a>
+    </li>
+    <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+      th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+      <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page ' + ${page})"></a>
+    </li>
+    <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+      <a class="page-link" href="#">...</a>
+    </li>
+    <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+      <a th:replace="fragments/paging :: paging(${currentPage + 1},'Next', 'Next Page')"></a>
+    </li>
+    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+      <a th:replace="fragments/paging :: paging(${totalPages}, '>>', 'Last Page')"></a>
+    </li>
+  </ul>
+</nav>
+  </div>
+
+  <div class="modal fade text-center" id="confirmModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Confirmation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <span id="confirmText"></span>
+        </div>
+
+        <div class="modal-footer">
+          <a type="button" id="yesBtn" class="btn btn-danger">Yes</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- div th:replace="fragments/footer :: footer"></div-->
+
+  <!-- sortable Table and Pagination Bar -->
+ <script type="text/javascript">
+    $(document).ready(function () {
+      $(".btn-delete").on("click", function (e) {
+        e.preventDefault();
+        link = $(this);
+
+        labelTitle = link.attr("labelTitle");
+        labelId = link.attr("labelId");
+        $("#yesBtn").attr("href", link.attr("href"));
+        $("#confirmText").html("Do you want to delete the Label \<strong\>" + labelTitle + "\<\/strong\> with id: \<strong\>" + labelId + "\<\/strong\>?");
+        $("#confirmModal").modal();
+      });
+
+      $("#btnClear").on("click", function (e) {
+        e.preventDefault();
+        $("#keyword").text("");
+        window.location = "[[@{/labels}]]";
+      });
+    });
+
+    function changePageSize() {
+      $("#searchForm").submit();
+    }
+  </script>
+</body>
+
+</html>
