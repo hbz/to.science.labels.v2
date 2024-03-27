@@ -28,7 +28,7 @@ public class LabelsController {
   @Autowired
   private LabelsRepository labelsRepository;
   
-  @GetMapping("/labels")
+  @GetMapping
   public String getAll(Model model, @RequestParam(required = false) String keyword,
       @RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "10") int size,
@@ -70,7 +70,7 @@ public class LabelsController {
     return "labels";
   }
 
-  @GetMapping("/labels/new")
+  @GetMapping("/new")
   public String addLabel(Model model) {
     
     model.addAttribute("label", new Label());
@@ -79,7 +79,7 @@ public class LabelsController {
     return "label_form";
   }
 
-  @PostMapping("/labels/save")
+  @PostMapping("/save")
   public String saveLabel(Label label, RedirectAttributes redirectAttributes) {
     try {
       labelsRepository.save(label);
@@ -89,10 +89,10 @@ public class LabelsController {
       redirectAttributes.addAttribute("message", e.getMessage());
     }
 
-    return "redirect:/labels";
+    return "redirect:/";
   }
 
-  @GetMapping("/labels/{id}")
+  @GetMapping("/{id}")
   public String editLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       Label label = labelsRepository.findById(id).get();
@@ -104,11 +104,11 @@ public class LabelsController {
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("message", e.getMessage());
 
-      return "redirect:/labels";
+      return "redirect:/";
     }
   }
 
-  @GetMapping("/labels/delete/{id}")
+  @GetMapping("/delete/{id}")
   public String deleteLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       labelsRepository.deleteById(id);
@@ -118,10 +118,10 @@ public class LabelsController {
       redirectAttributes.addFlashAttribute("message", e.getMessage());
     }
 
-    return "redirect:/labels";
+    return "redirect:/";
   }
 
-  @GetMapping("/label")
+  @GetMapping("/find")
   @ResponseBody
   public Label getLabelByGroupAndName(Model model, @RequestParam String group, @RequestParam String name) {
 	  return labelsRepository.findByGroupAndJsonConfName(group, name);

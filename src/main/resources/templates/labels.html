@@ -27,7 +27,7 @@
     </div>
 
     <div class="my-3">
-    	<form th:action="@{/labels}" id="searchForm">
+    	<form th:action="@{/}" id="searchForm">
     		<div class="row mt-2 justify-content-between">
     			<div class="col-md-auto me-auto ">
     				<div class="input-group search">
@@ -83,10 +83,10 @@
 	        
 	        <td>[[${label.comment}]]</td>
 	        <td class="text-center">
-	          <a th:href="@{'/labels/' + ${label.id}}" title="Edit this label"
+	          <a th:href="@{'/' + ${label.id}}" title="Edit this label"
 	            class="bi bi-pencil-square" style="padding-right: 5px; font-size: 2rem;"></a>
 	           
-	          <a th:href="@{'/labels/delete/' + ${label.id}}" th:labelId="${label.id}" th:labelTitle="${label.labelStr}" id="btnDelete"
+	          <a th:href="@{'/delete/' + ${label.id}}" th:labelId="${label.id}" th:labelTitle="${label.labelStr}" id="btnDelete"
 	            title="Delete this label" class="bi bi-trash btn-delete" data-bs-toggle="modal" data-bs-target="#confirmModal" style="font-size: 2rem;"></a>
 	        </td>
 	      </tr>
@@ -165,7 +165,7 @@
       $("#btnClear").on("click", function (e) {
         e.preventDefault();
         $("#keyword").text("");
-        window.location = "[[@{/labels}]]";
+        window.location = "[[@{/}]]";
       });
     });
 

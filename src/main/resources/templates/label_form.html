@@ -22,7 +22,7 @@
     </main>
 
     <div class="my-3">
-      <form th:action="@{/labels/save}" method="post" enctype="multipart/form-data" th:object="${label}">
+      <form th:action="@{/save}" method="post" enctype="multipart/form-data" th:object="${label}">
 		<div class="row">
 			<div class="col-md-6">
 		        <input type="hidden" th:field="*{id}" />
@@ -107,7 +107,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       $("#btnCancel").on("click", function () {
-        window.location = "[[@{/labels}]]";
+        window.location = "[[@{/}]]";
       });
     });
   </script>
