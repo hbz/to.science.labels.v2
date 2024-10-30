@@ -1,4 +1,4 @@
-package de.nrw.hbz.to.science.labels.v2;
+package de.hbz.nrw.to.science.labels.v2;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

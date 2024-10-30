@@ -1,4 +1,4 @@
-package de.nrw.hbz.to.science.labels.v2;
+package de.hbz.nrw.to.science.labels.v2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
