@@ -1,10 +1,10 @@
-package nrw.hbz.to.science.labels.v2;
+package de.hbz.nrw.to.science.labels.v2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LabelsV2ApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
