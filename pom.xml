@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.nrw.hbz</groupId>
-	<artifactId>labelsV2</artifactId>
+	<artifactId>to.science.labels.v2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>labelsV2</name>
+	<name>to.science.labels.v2</name>
 	<description>Webservice Labels for hbz</description>
 	<properties>
 		<java.version>11</java.version>

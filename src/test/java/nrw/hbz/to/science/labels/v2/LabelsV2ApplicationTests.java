@@ -1,4 +1,4 @@
-package de.nrw.hbz.labelsV2;
+package nrw.hbz.to.science.labels.v2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

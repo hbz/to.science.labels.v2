@@ -1,4 +1,4 @@
-package de.nrw.hbz.labelsV2.controller;
+package de.nrw.hbz.to.science.labels.v2.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import de.nrw.hbz.labelsV2.entity.Label;
-import de.nrw.hbz.labelsV2.repository.LabelsRepository;
+import de.nrw.hbz.to.science.labels.v2.entity.Label;
+import de.nrw.hbz.to.science.labels.v2.repository.LabelsRepository;
 
 @Controller
 public class LabelsController {

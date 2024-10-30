@@ -1,4 +1,4 @@
-package de.nrw.hbz.labelsV2.repository;
+package de.nrw.hbz.to.science.labels.v2.repository;
 
 import javax.transaction.Transactional;
 
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import de.nrw.hbz.labelsV2.entity.Label;
+import de.nrw.hbz.to.science.labels.v2.entity.Label;
 
 
 @Repository

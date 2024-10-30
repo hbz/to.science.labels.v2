@@ -1,4 +1,4 @@
-package de.nrw.hbz.labelsV2.entity;
+package de.nrw.hbz.to.science.labels.v2.entity;
 
 import javax.persistence.*;
 
