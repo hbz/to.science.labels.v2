@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,70 +23,35 @@ public class LabelsController {
   private LabelsRepository labelsRepository;
   
   @GetMapping
-  public String getAll(Model model, @RequestParam(required = false) String keyword,
-      @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "10") int size,
-      @RequestParam(defaultValue = "id,asc") String[] sort) {
-    try {
-      List<Label> labels = new ArrayList<Label>();
-     
-      String sortField = sort[0];
-      String sortDirection = sort[1];
-      
-      Direction direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-      Order order = new Order(direction, sortField);
-      
-      Pageable pageable = PageRequest.of(page - 1, size, Sort.by(order));
-
-      Page<Label> pageLabel;
-      if (keyword == null) {
-        pageLabel = labelsRepository.findAll(pageable);
-      } else {
-    	pageLabel = labelsRepository.searchAllFieldsByKeyword(keyword, pageable);
-        model.addAttribute("keyword", keyword);
-      }
-
-      labels = pageLabel.getContent();
-
-      model.addAttribute("mainTitle", "Labels");
-      model.addAttribute("labels", labels);
-      model.addAttribute("currentPage", pageLabel.getNumber() + 1);
-      model.addAttribute("totalItems", pageLabel.getTotalElements());
-      model.addAttribute("totalPages", pageLabel.getTotalPages());
-      model.addAttribute("pageSize", size);
-      model.addAttribute("sortField", sortField);
-      model.addAttribute("sortDirection", sortDirection);
-      model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
-    } catch (Exception e) {
-      model.addAttribute("message", e.getMessage());
-    }
-
-    return "labels";
+  public String getAll(Model model) {
+    
+	  List<Label> labels = new ArrayList<Label>();
+	  labels = labelsRepository.findAll();
+	  model.addAttribute("mainTitle", "Labels");
+	  model.addAttribute("labels", labels);
+	  return "labels";
   }
 
-  @GetMapping("/new")
+  @GetMapping("/label")
   public String addLabel(Model model) {
-    
-    model.addAttribute("label", new Label());
-    model.addAttribute("pageTitle", "Create new Label");
-
-    return "label_form";
+	  
+	  model.addAttribute("label", new Label());
+	  model.addAttribute("pageTitle", "Create new Label");
+	  return "label_form";
   }
 
   @PostMapping("/save")
   public String saveLabel(Label label, RedirectAttributes redirectAttributes) {
-    try {
-      labelsRepository.save(label);
-
-      redirectAttributes.addFlashAttribute("message", "The Label has been saved successfully!");
-    } catch (Exception e) {
-      redirectAttributes.addAttribute("message", e.getMessage());
-    }
-
-    return "redirect:/";
+	try {
+	  labelsRepository.save(label);
+	  redirectAttributes.addFlashAttribute("message", "The Label has been saved/updated successfully!");
+	} catch (Exception e) {
+	  redirectAttributes.addAttribute("message", e.getMessage());
+	}
+	return "redirect:/";
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/label/{id}")
   public String editLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       Label label = labelsRepository.findById(id).get();
@@ -108,7 +67,7 @@ public class LabelsController {
     }
   }
 
-  @GetMapping("/delete/{id}")
+  @GetMapping("/delete/label/{id}")
   public String deleteLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       labelsRepository.deleteById(id);
