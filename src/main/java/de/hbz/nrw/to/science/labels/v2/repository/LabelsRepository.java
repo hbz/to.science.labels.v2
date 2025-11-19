@@ -1,6 +1,6 @@
 package de.hbz.nrw.to.science.labels.v2.repository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

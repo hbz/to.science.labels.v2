@@ -1,6 +1,6 @@
 package de.hbz.nrw.to.science.labels.v2.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
