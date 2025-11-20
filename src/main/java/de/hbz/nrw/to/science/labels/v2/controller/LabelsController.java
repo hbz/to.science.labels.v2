@@ -22,7 +22,7 @@ public class LabelsController {
   @Autowired
   private LabelsRepository labelsRepository;
   
-  @GetMapping
+  @GetMapping({"/", ""})
   public String getAll(Model model) {
     
 	  List<Label> labels = new ArrayList<Label>();
@@ -32,7 +32,7 @@ public class LabelsController {
 	  return "labels";
   }
 
-  @GetMapping("/label")
+  @GetMapping({"/label/", "/label"})
   public String addLabel(Model model) {
 	  
 	  model.addAttribute("label", new Label());
@@ -40,7 +40,7 @@ public class LabelsController {
 	  return "label_form";
   }
 
-  @PostMapping("/save")
+  @PostMapping({"/save/", "/save"})
   public String saveLabel(Label label, RedirectAttributes redirectAttributes) {
 	try {
 	  labelsRepository.save(label);
@@ -51,7 +51,7 @@ public class LabelsController {
 	return "redirect:/";
   }
 
-  @GetMapping("/label/{id}")
+  @GetMapping({"/label/{id}/", "/label/{id}"})
   public String editLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       Label label = labelsRepository.findById(id).get();
@@ -67,7 +67,7 @@ public class LabelsController {
     }
   }
 
-  @GetMapping("/delete/label/{id}")
+  @GetMapping({"/delete/label/{id}/", "/delete/label/{id}"})
   public String deleteLabel(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
     try {
       labelsRepository.deleteById(id);
@@ -80,7 +80,7 @@ public class LabelsController {
     return "redirect:/";
   }
 
-  @GetMapping("/find")
+  @GetMapping({"/find/", "/find"})
   @ResponseBody
   public Label getLabelByGroupAndName(Model model, @RequestParam String group, @RequestParam String name) {
 	  return labelsRepository.findByGroupAndJsonConfName(group, name);
